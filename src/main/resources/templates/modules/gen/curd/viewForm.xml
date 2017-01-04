@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewForm</name>
+	<filePath>src/main/webapp/WEB-INF/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${className}Form.jsp</fileName>
+	<content><![CDATA[
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<html>
+<head>
+    <title>食品备案</title>
+    <meta name="decorator" content="miniui"/>
+</head>
+<body>
+<div id="${className}MainPanel" class="mini-panel"   style="width:100%;height:440px;" showHeader="false" showToolbar="true">
+	<div property="toolbar" >
+        <a class="mini-button" iconCls="icon-ok" plain="false" onclick="save()">提交</a>
+    </div>
+    <div id="miniForm">
+    	<div id="${className}InfoPanel" class="mini-panel" title="${functionNameSimple}信息"  style="width:100%;height:400px;" 
+    		showToolbar="true" showCollapseButton="true" showFooter="true" allowResize="true" collapseOnTitleClick="true">
+    		<input id="${className}Id" name="id" class="mini-hidden" value="${"$"}{${className}.id}" />
+    		<table border="1" cellpadding="1" cellspacing="2" style="width:100%;table-layout:fixed;">
+    			<#list table.columnList as c>
+    				<#if c.isEdit?? && c.isEdit == "1" && c.isNotBaseField>
+    				<tr>
+    					<td style="width:120px;">${c.comments}：</td>
+    					<td style="width:80%">
+    					<#if c.showType == "input">
+    						<input id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-textbox"  <#if c.javaType == "Long" || c.javaType == "Integer"> vtype="int" </#if> <#if c.javaType == "Double"> vtype="float" </#if> <#if c.isNull != "1"> required="true" </#if>  emptyText="请输入${c.comments}"  style="width:100%;" value="${"$"}{${className}.${c.simpleJavaField}}"/>
+    					<#elseif c.showType == "textarea">
+    						<textarea id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-textarea" <#if c.isNull != "1"> required="true" </#if> value="${"$"}{${className}.${c.simpleJavaField}}"></textarea>
+    					<#elseif c.showType == "select">
+    						<div id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-combobox" textField="text" valueField="value"  
+    							<#if c.isNull != "1"> required="true" </#if>
+    							data="${"$"}{fns:getComboDict('${c.dictType2}')}" value="${"$"}{${className}.${c.simpleJavaField}}">
+    					<#elseif c.showType == "checkbox">
+    						<div id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-checkboxlist" repeatItems="10" repeatLayout="table" repeatDirection="horizontal"
+    							textField="text" valueField="value" value="${"$"}{${className}.${c.simpleJavaField}}"
+    							<#if c.isNull != "1"> required="true" </#if>
+    							data="${"$"}{fns:getComboDict('${c.dictType2}')}">
+    					<#elseif c.showType == "radiobox">
+    						<div id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-radiobuttonlist" repeatItems="10" repeatLayout="table" repeatDirection="horizontal"
+    							textField="text" valueField="value" value="${"$"}{${className}.${c.simpleJavaField}}"
+    							<#if c.isNull != "1"> required="true" </#if>
+    							data="${"$"}{fns:getComboDict('${c.dictType2}')}">
+    					<#elseif c.showType == "dateselect">
+    						<input id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-datepicker" <#if c.isNull != "1"> required="true" </#if> value="${"$"}{${className}.${c.simpleJavaField}}"/>
+    					<#elseif c.showType == "treeselect">
+    						<input id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-treeselect"  resultAsTree="false"
+        					popupWidth="200" data="${"$"}{fns:getCodeTree('${c.dictType2}')}"
+        					<#if c.isNull != "1"> required="true" </#if>
+        					value="${"$"}{${className}.${c.simpleJavaField}}"/>
+    					<#elseif c.showType == "userselect">
+    						<input id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-lookup" style="width:200px;" 
+        						textField="name" valueField="id" popupWidth="auto" 
+        						popup="#${c.simpleJavaField}GridPanel" grid="#${c.simpleJavaField}Grid" multiSelect="false" 
+        						<#if c.isNull != "1"> required="true" </#if>
+        						value="${"$"}{${className}.${c.simpleJavaField}}"/>
+        					<div id="${c.simpleJavaField}GridPanel" class="mini-panel" style="width:450px;height:250px;" showToolbar="true" 
+        						showCloseButton="true" showHeader="false" bodyStyle="padding:0" borderStyle="border:0" >
+        						
+        						<div property="toolbar" style="padding:5px;padding-left:8px;text-align:center;">   
+            						<div style="float:left;padding-bottom:2px;">
+                						<span>姓名：</span>                
+                						<input id="${c.simpleJavaField}keyText" class="mini-textbox" style="width:160px;"/>
+                						<a class="mini-button" onclick="on${c.simpleJavaField}SearchClick">查询</a>
+                						<a class="mini-button" onclick="on${c.simpleJavaField}ClearClick">清除</a>
+            						</div>
+            						<div style="float:right;padding-bottom:2px;">
+                						<a class="mini-button" onclick="on${c.simpleJavaField}CloseClick">关闭</a>
+            						</div>
+            						<div style="clear:both;"></div>
+        						</div>
+        						
+        						<div id="${c.simpleJavaField}Grid" class="mini-datagrid" style="width:100%;height:100%;" 
+            						borderStyle="border:0" showPageSize="true" showPageIndex="true"
+            						url="${"$"}{ctx}/sys/user/pageQuery" >
+            						<div property="columns">
+                						<div type="checkcolumn" ></div>
+                						<div field="loginName" width="100" headerAlign="center" allowSort="true">帐号</div>
+                						<div field="no" width="80" headerAlign="center" allowSort="true">工号</div>    
+                						<div field="name" width="100" headerAlign="center" allowSort="true">姓名</div>
+                						<div field="companyName" width="120" headerAlign="center" allowSort="true">机构</div>	
+            						</div>
+        						</div> 
+        								
+        					</div>
+    					<#elseif c.showType == "officeselect">
+    						<input id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-treeselect" data="${"$"}{fns:getOfficeTree()}" 
+    							<#if c.isNull != "1"> required="true" </#if>
+        						value="${"$"}{${className}.${c.simpleJavaField}}"
+    							popupWidth="200" resultAsTree="false"/>
+    					<#elseif c.showType == "areaselect">
+    						<input id="${c.simpleJavaField}" name="${c.simpleJavaField}" class="mini-treeselect" data="${"$"}{fns:getAreaTree()}" 
+    							<#if c.isNull != "1"> required="true" </#if>
+        						value="${"$"}{${className}.${c.simpleJavaField}}"
+    							popupWidth="200" resultAsTree="false"/>
+    					</#if>
+    					</td>
+    				</tr>
+    				</#if>
+    			</#list>
+    		</table>
+    	</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+        
+    mini.parse();
+    
+    function save() {
+		var form = new mini.Form("#miniForm");
+        form.validate();
+        if (form.isValid()){
+            var data = form.getData(true);      //获取表单多个控件的数据
+            $.ajax({
+                url: "${r"${ctx}"}/${urlPrefix}/save",
+                type: "post",
+                data: data,
+                success: function (data) {
+                	${className}Id = mini.get("${className}Id").getValue();
+                	if(${className}Id && ${className}Id != '') {
+                		window.parent.refresh(1);
+                	} else {
+                		window.parent.refresh(2);
+                	}
+                	
+                }
+            });
+        }
+	}
+
+
+<#list table.columnList as c>
+	<#if c.isEdit?? && c.isEdit == "1" && c.isNotBaseField>
+		<#if c.showType == "userselect">
+			var ${c.simpleJavaField}Grid = mini.get("#${c.simpleJavaField}Grid");
+        	var ${c.simpleJavaField}keyText = mini.get("#${c.simpleJavaField}keyText");
+
+        	${c.simpleJavaField}Grid.load();
+        	
+        	function on${c.simpleJavaField}SearchClick(e) {
+            	${c.simpleJavaField}Grid.load({
+                	name: ${c.simpleJavaField}keyText.value
+            	});
+        	}
+        	
+        	function on${c.simpleJavaField}CloseClick(e) {
+            	var ${c.simpleJavaField} = mini.get("#${c.simpleJavaField}");
+            	${c.simpleJavaField}.hidePopup();
+        	}
+        	
+        	function on${c.simpleJavaField}ClearClick(e) {
+            	var ${c.simpleJavaField} = mini.get("#${c.simpleJavaField}");
+            	${c.simpleJavaField}.deselectAll();
+        	}
+        
+		</#if>
+	</#if>
+</#list>    
+</script>
+	
+</body>
+</html>]]>
+	</content>
+</template>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>controller</name>
+	<filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content><![CDATA[
+/**
+ * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
+package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.authz.annotation.RequiresUser;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+import com.thinkgem.jeesite.common.persistence.MiniPage;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
+
+
+/**
+ * ${functionName}Controller
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@Controller
+@RequestMapping(value = "${r"${adminPath}"}/${urlPrefix}")
+public class ${ClassName}Controller extends BaseController {
+
+	@Autowired
+	private ${ClassName}Service ${className}Service;
+	
+	@ModelAttribute
+	public ${ClassName} get(@RequestParam(required=false) String id) {
+		${ClassName} entity = null;
+		if (StringUtils.isNotBlank(id)){
+			entity = ${className}Service.get(id);
+		}
+		if (entity == null){
+			entity = new ${ClassName}();
+		}
+		return entity;
+	}
+	
+	
+	/**
+	 * 导向到列表页面
+	 * @return
+	 */
+	@RequiresUser
+	//@RequiresPermissions("${permissionPrefix}:view")
+	@RequestMapping(value = {"list",""})
+	public String list() {
+		return "${lastPackageName}/${viewPrefix}List";
+	}
+	
+	/**
+	 * 导向到新增，修改页面
+	 * @param ${className}
+	 * @param model
+	 * @return
+	 */
+	@RequiresUser
+	@RequestMapping(value = {"form"})
+	public String form(${ClassName} ${className},Model model) {
+		
+		return "${lastPackageName}/${viewPrefix}Form";	
+	}
+	
+	
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	@RequiresUser
+	//@RequiresPermissions("${permissionPrefix}:view")
+	@RequestMapping(value = {"pageQuery"})
+	@ResponseBody
+	public MiniPage pageQuery(${ClassName} ${className}, HttpServletRequest request, HttpServletResponse response) {
+		MiniPage p = new MiniPage(request,response);
+		return ${className}Service.pageQuery(p,${className});
+	}
+	
+	
+	/**
+	 * 保存
+	 * @param ${className}
+	 * @return
+	 */
+	@RequiresUser
+	@ResponseBody
+	@RequestMapping(value = {"save"})
+	public String save(${ClassName} ${className}) {
+		${className}Service.save(${className});
+		Map<String,Integer> result = new HashMap<String,Integer>();
+		result.put("result", 0);
+		return JsonMapper.getInstance().toJson(result);
+	}
+	
+	
+
+	/**
+	 * 删除
+	 * @param ${className}
+	 * @return
+	 */
+	@RequiresUser
+	@ResponseBody
+	@RequestMapping(value = "remove")
+	public String remove(${ClassName} ${className}) {
+		${className}Service.delete(${className});
+		Map<String,Integer> result = new HashMap<String,Integer>();
+		result.put("result", 0);
+		return JsonMapper.getInstance().toJson(result);
+	}
+}]]>
+	</content>
+</template>

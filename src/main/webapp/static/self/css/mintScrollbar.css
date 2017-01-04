@@ -1,0 +1,76 @@
+.mintScrollbar__container {
+    position: relative;
+    overflow: hidden;
+}
+
+.mintScrollbar__viewport {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mintScrollbar {
+    position: absolute;
+    visibility: hidden;
+    overflow: hidden;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+    opacity: 0;
+    background: #ccc;
+    background-color: rgba(0,0,0,.2);
+}
+
+.mintScrollbar__container:hover > .mintScrollbar,
+.mintScrollbar__viewport:focus ~ .mintScrollbar,
+.mintScrollbar__viewport--active ~ .mintScrollbar {
+    visibility: visible;
+    opacity: 1;
+}
+
+.mintScrollbar__thumb {
+    position: absolute;
+    background: #999;
+    background-color: rgba(0, 0, 0, .3);
+    -webkit-box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+}
+
+.mintScrollbar__thumb:hover {
+    background: #777;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.mintScrollbar__thumb:active {
+    background: #666;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.mintScrollbar__x {
+    right: 3px;
+    bottom: 3px;
+    left: 3px;
+    height: 6px;
+}
+
+.mintScrollbar__x__thumb {
+    top: 0;
+    left: 0;
+    min-width: 20px;
+    height: 100%;
+}
+
+.mintScrollbar__y {
+    top: 3px;
+    right: 3px;
+    bottom: 3px;
+    width: 6px;
+}
+
+.mintScrollbar__y__thumb {
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 20px;
+}

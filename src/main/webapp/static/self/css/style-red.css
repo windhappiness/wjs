@@ -1,0 +1,128 @@
+@charset "UTF-8";
+body, a {
+  color: #333;
+}
+
+/*
+[type="radio"]:checked + label {
+	background-image: url(../img/input_radiobtn_checked_red.png);
+}
+[type="checkbox"]:checked + label {
+	background-image: url(../img/input_checkbox_checked_red.png);
+}
+*/
+#header,
+#nav,
+.btn,
+button {
+  background-color: #9F0000;
+}
+
+#main，
+#menu .current a {
+  background-color: #F5F5F5;
+}
+
+#menu .current a {
+  color: #9F0000;
+}
+#menu .current .icon-overview {
+  background-image: url(../img/nav_icon_overview_red.png);
+}
+#menu .current .icon-new {
+  background-image: url(../img/nav_icon_new_red.png);
+}
+#menu .current .icon-list {
+  background-image: url(../img/nav_icon_list_red.png);
+}
+#menu .current .icon-make {
+  background-image: url(../img/nav_icon_make_red.png);
+}
+#menu .current .icon_realname {
+  background-image: url(../img/smrz_h.png);
+}
+#menu .current .icon_supervision {
+  background-image: url(../img/shjg_h.png);
+}
+#menu .current .icon-custom {
+  background-image: url(../img/zzlc_h.png);
+}
+#menu .current .icon-appoint {
+  background-image: url(../img/zzlc_h.png);
+}
+
+.list-action {
+  color: #9F0000;
+}
+.list-action .action-item .action-menu {
+  background-color: #9F0000;
+}
+.list-action .action-item .action-menu li:hover {
+  background-color: #900000;
+}
+.list-action .action-item.action-show .action-toggle {
+  background-color: #9F0000;
+}
+.list-action .action-item.action-item-check .action-toggle {
+  background-image: url(../img/action_icon_check_red.png);
+}
+.list-action .action-item.action-item-search .action-toggle {
+  background-image: url(../img/action_icon_search_red.png);
+}
+
+.progress .step {
+  border-left-color: #e7bfbf;
+}
+.progress .step:after {
+  background: #e7bfbf;
+}
+.progress .step .content {
+  color: #e7bfbf;
+}
+.progress .step .content .icon {
+  background-image: url(../img/icon_todo_red.png);
+}
+.progress .step.inprogress {
+  border-left-color: #9F0000;
+}
+.progress .step.inprogress:after {
+  background-color: #9F0000;
+}
+.progress .step.inprogress .content {
+  background: #e7bfbf;
+}
+.progress .step.inprogress .content .icon {
+  background-image: url(../img/icon_todo_red.png);
+}
+.progress .step.done {
+  border-left-color: #9F0000;
+}
+.progress .step.done:after {
+  background-color: #9F0000;
+}
+.progress .step.done .content {
+  background: #9F0000;
+}
+
+.actionbar .btn .text {
+  background: #9F0000;
+}
+
+.toc li.active a {
+  color: #9F0000;
+}
+.toc li.active:after {
+  border-color: #9F0000;
+}
+
+.category-list div:hover {
+  border-color: #9F0000;
+}
+.category-list .types {
+  background: #9F0000;
+}
+.category-list > li:hover div {
+  color: #fff;
+  background: #9F0000;
+  border-color: #9F0000;
+}
